@@ -1,0 +1,2 @@
+[extend2] 22:43:58 train joint_s6_ext from logs/rsl_rl/arduino_quad_velocity/2026-11-13_15-18-54_joint_s6/model_4599.pt
+[extend2] 03:02:26 done joint_s6_ext

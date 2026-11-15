@@ -1,0 +1,16 @@
+[extend2] 02:57:43 train baseline_s1_ext2 from logs/rsl_rl/arduino_quad_velocity/2026-11-12_22-29-11_baseline_s1_ext/model_4598.pt
+[extend2] 04:42:24 done baseline_s1_ext2
+[extend2] 04:42:24 train joint_s1_ext2 from logs/rsl_rl/arduino_quad_velocity/2026-11-13_00-06-05_joint_s1_ext/model_4598.pt
+[extend2] 06:38:51 done joint_s1_ext2
+[extend2] 06:38:51 train baseline_s3_ext2 from logs/rsl_rl/arduino_quad_velocity/2026-11-12_22-29-19_baseline_s3_ext/model_4598.pt
+[extend2] 08:21:24 done baseline_s3_ext2
+[extend2] 08:21:24 train joint_s3_ext2 from logs/rsl_rl/arduino_quad_velocity/2026-11-13_00-11-52_joint_s3_ext/model_4598.pt
+[extend2] 10:19:12 done joint_s3_ext2
+[extend2] 10:19:12 train baseline_s4_ext from logs/rsl_rl/arduino_quad_velocity/2026-11-13_14-39-08_baseline_s4/model_4599.pt
+[extend2] 12:01:38 done baseline_s4_ext
+[extend2] 12:01:38 train joint_s4_ext from logs/rsl_rl/arduino_quad_velocity/2026-11-13_12-55-59_joint_s4/model_4599.pt
+[extend2] 13:59:44 done joint_s4_ext
+[extend2] 13:59:44 train baseline_s5_ext from logs/rsl_rl/arduino_quad_velocity/2026-11-13_12-55-57_baseline_s5/model_4599.pt
+[extend2] 15:41:27 done baseline_s5_ext
+[extend2] 15:41:27 train joint_s5_ext from logs/rsl_rl/arduino_quad_velocity/2026-11-13_16-01-09_joint_s5/model_4599.pt
+[extend2] 17:37:16 done joint_s5_ext

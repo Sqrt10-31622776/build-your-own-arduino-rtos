@@ -1,0 +1,79 @@
+checkpoint: logs/rsl_rl/arduino_quad_velocity/2026-11-15_17-29-56_frozenA_s1/model_4599.pt
+logs/rsl_rl/arduino_quad_velocity/2026-11-15_17-29-56_frozenA_s1/model_4599.pt (64 envs x 20 s, nominal robot)
+    sim cmd_vx cmd_wz |      vx      wz |  roll pitch | falls |      duty  diag  lift  slip
+[38;5;226m[Genesis] [19:22:46] [WARNING] Link 'FL_foot' has dubious center of mass [x=-0.036, y=-0.002, z=0.032] compared to the bounding box from geometry [x=(-0.091, -0.075), y=(-0.006, 0.010), z=(0.062, 0.078)].[0m
+[38;5;226m[Genesis] [19:22:46] [WARNING] Link 'RL_foot' has dubious center of mass [x=-0.036, y=-0.002, z=0.032] compared to the bounding box from geometry [x=(-0.091, -0.075), y=(-0.006, 0.010), z=(0.062, 0.078)].[0m
+[38;5;226m[Genesis] [19:22:46] [WARNING] Link 'RR_foot' has dubious center of mass [x=-0.036, y=0.002, z=0.032] compared to the bounding box from geometry [x=(-0.091, -0.075), y=(-0.006, 0.010), z=(0.062, 0.078)].[0m
+[38;5;226m[Genesis] [19:22:46] [WARNING] Link 'FR_foot' has dubious center of mass [x=-0.036, y=0.002, z=0.032] compared to the bounding box from geometry [x=(-0.091, -0.075), y=(-0.006, 0.010), z=(0.062, 0.078)].[0m
+--------------------------------------------------------------------------------
+Resolved observation sets: 
+	 actor :  ('actor',)
+	 critic :  ('critic',)
+--------------------------------------------------------------------------------
+Actor Model: TwoStageActor(
+  (obs_normalizer): Identity()
+  (distribution): GaussianDistribution()
+  (mlp): MLP(
+    (0): Linear(in_features=87, out_features=96, bias=True)
+    (1): ELU(alpha=1.0)
+    (2): Linear(in_features=96, out_features=64, bias=True)
+    (3): ELU(alpha=1.0)
+    (4): Linear(in_features=64, out_features=8, bias=True)
+  )
+  (stage_a_norm): EmpiricalNormalization()
+  (stage_b): StageB()
+  (b_norm): EmpiricalNormalization()
+)
+Critic Model: MLPModel(
+  (obs_normalizer): EmpiricalNormalization()
+  (mlp): MLP(
+    (0): Linear(in_features=62, out_features=256, bias=True)
+    (1): ELU(alpha=1.0)
+    (2): Linear(in_features=256, out_features=128, bias=True)
+    (3): ELU(alpha=1.0)
+    (4): Linear(in_features=128, out_features=1, bias=True)
+  )
+)
+genesis  0.060  0.000 |   0.059  -0.020 |   0.6   5.6 |     0 | 0.33-0.73  0.82   6.4  16.2
+genesis  0.120  0.000 |   0.114   0.003 |   1.0   3.8 |     0 | 0.39-0.56  0.88   8.9  20.3
+genesis  0.000  0.300 |  -0.006   0.044 |   3.4   4.4 |     0 | 0.37-0.62  0.87   7.9  14.3
+genesis  0.060 -0.300 |   0.059  -0.075 |   3.2   3.0 |     0 | 0.41-0.60  0.91   8.2  17.8
+logs/rsl_rl/arduino_quad_velocity/2026-11-15_17-29-56_frozenA_s1/model_4599.pt (64 envs x 20 s, randomized robot)
+    sim cmd_vx cmd_wz |      vx      wz |  roll pitch | falls |      duty  diag  lift  slip
+[38;5;226m[Genesis] [19:24:21] [WARNING] Link 'FL_foot' has dubious center of mass [x=-0.036, y=-0.002, z=0.032] compared to the bounding box from geometry [x=(-0.091, -0.075), y=(-0.006, 0.010), z=(0.062, 0.078)].[0m
+[38;5;226m[Genesis] [19:24:21] [WARNING] Link 'RL_foot' has dubious center of mass [x=-0.036, y=-0.002, z=0.032] compared to the bounding box from geometry [x=(-0.091, -0.075), y=(-0.006, 0.010), z=(0.062, 0.078)].[0m
+[38;5;226m[Genesis] [19:24:21] [WARNING] Link 'RR_foot' has dubious center of mass [x=-0.036, y=0.002, z=0.032] compared to the bounding box from geometry [x=(-0.091, -0.075), y=(-0.006, 0.010), z=(0.062, 0.078)].[0m
+[38;5;226m[Genesis] [19:24:21] [WARNING] Link 'FR_foot' has dubious center of mass [x=-0.036, y=0.002, z=0.032] compared to the bounding box from geometry [x=(-0.091, -0.075), y=(-0.006, 0.010), z=(0.062, 0.078)].[0m
+--------------------------------------------------------------------------------
+Resolved observation sets: 
+	 actor :  ('actor',)
+	 critic :  ('critic',)
+--------------------------------------------------------------------------------
+Actor Model: TwoStageActor(
+  (obs_normalizer): Identity()
+  (distribution): GaussianDistribution()
+  (mlp): MLP(
+    (0): Linear(in_features=87, out_features=96, bias=True)
+    (1): ELU(alpha=1.0)
+    (2): Linear(in_features=96, out_features=64, bias=True)
+    (3): ELU(alpha=1.0)
+    (4): Linear(in_features=64, out_features=8, bias=True)
+  )
+  (stage_a_norm): EmpiricalNormalization()
+  (stage_b): StageB()
+  (b_norm): EmpiricalNormalization()
+)
+Critic Model: MLPModel(
+  (obs_normalizer): EmpiricalNormalization()
+  (mlp): MLP(
+    (0): Linear(in_features=62, out_features=256, bias=True)
+    (1): ELU(alpha=1.0)
+    (2): Linear(in_features=256, out_features=128, bias=True)
+    (3): ELU(alpha=1.0)
+    (4): Linear(in_features=128, out_features=1, bias=True)
+  )
+)
+genesis  0.060  0.000 |   0.060  -0.022 |   0.8   5.7 |     0 | 0.35-0.70  0.81   6.2  19.0
+genesis  0.120  0.000 |   0.113  -0.013 |   1.1   3.8 |     0 | 0.41-0.55  0.85   8.7  24.1
+genesis  0.000  0.300 |  -0.001   0.035 |   3.6   4.4 |     0 | 0.37-0.64  0.84   7.8  17.5
+genesis  0.060 -0.300 |   0.060  -0.089 |   3.3   3.1 |     0 | 0.40-0.60  0.83   8.1  22.8

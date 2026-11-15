@@ -1,0 +1,2 @@
+[extend2] 22:43:58 train baseline_s2_ext2 from logs/rsl_rl/arduino_quad_velocity/2026-11-12_23-20-35_baseline_s2_ext/model_4598.pt
+[extend2] 02:57:21 done baseline_s2_ext2
