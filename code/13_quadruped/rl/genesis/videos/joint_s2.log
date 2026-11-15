@@ -1,0 +1,36 @@
+[38;5;226m[Genesis] [21:48:32] [WARNING] Link 'FL_foot' has dubious center of mass [x=-0.036, y=-0.002, z=0.032] compared to the bounding box from geometry [x=(-0.091, -0.075), y=(-0.006, 0.010), z=(0.062, 0.078)].[0m
+[38;5;226m[Genesis] [21:48:32] [WARNING] Link 'RL_foot' has dubious center of mass [x=-0.036, y=-0.002, z=0.032] compared to the bounding box from geometry [x=(-0.091, -0.075), y=(-0.006, 0.010), z=(0.062, 0.078)].[0m
+[38;5;226m[Genesis] [21:48:32] [WARNING] Link 'RR_foot' has dubious center of mass [x=-0.036, y=0.002, z=0.032] compared to the bounding box from geometry [x=(-0.091, -0.075), y=(-0.006, 0.010), z=(0.062, 0.078)].[0m
+[38;5;226m[Genesis] [21:48:32] [WARNING] Link 'FR_foot' has dubious center of mass [x=-0.036, y=0.002, z=0.032] compared to the bounding box from geometry [x=(-0.091, -0.075), y=(-0.006, 0.010), z=(0.062, 0.078)].[0m
+--------------------------------------------------------------------------------
+Resolved observation sets: 
+	 actor :  ('actor',)
+	 critic :  ('critic',)
+--------------------------------------------------------------------------------
+Actor Model: TwoStageActor(
+  (obs_normalizer): Identity()
+  (distribution): GaussianDistribution()
+  (mlp): MLP(
+    (0): Linear(in_features=87, out_features=96, bias=True)
+    (1): ELU(alpha=1.0)
+    (2): Linear(in_features=96, out_features=64, bias=True)
+    (3): ELU(alpha=1.0)
+    (4): Linear(in_features=64, out_features=8, bias=True)
+  )
+  (stage_a_norm): EmpiricalNormalization()
+  (stage_b): StageB()
+  (b_norm): EmpiricalNormalization()
+)
+Critic Model: MLPModel(
+  (obs_normalizer): EmpiricalNormalization()
+  (mlp): MLP(
+    (0): Linear(in_features=62, out_features=256, bias=True)
+    (1): ELU(alpha=1.0)
+    (2): Linear(in_features=256, out_features=128, bias=True)
+    (3): ELU(alpha=1.0)
+    (4): Linear(in_features=128, out_features=1, bias=True)
+  )
+)
+wrote videos/joint_s2.mp4 (400 frames, 16.0 s, genesis sim, falls 0)
+WARNING: OpenGL error 0x502 in or before mjr_makeContext
+

@@ -118,7 +118,7 @@ A (アドバンテージ) は、その行動が平均よりどれだけ良かっ
 
 `joint` (A+B) と `baseline` (A のみ) を、同じ環境・報酬・iteration 数・env 数で比べます。差は「s_t を見る段 B が付くか」だけです (パラメータは B の分、約 3.4k 個多い)。
 
-- 各モード 3 seed (1, 2, 3)、既定 2300 iteration、4096 env。
+- 各モード 7 seed (1〜7)、8192 env、9200 iteration 相当 (seed 1〜6 は 2300 または 4600 iteration ごとに `--resume` で延長、seed 7 は通し。4.2 節)。
 - 学習後に、最後のチェックポイントを `sim2sim.py --sim genesis` で、ドメインランダム化なし/あり (`--dr`) の両方、コマンド `0.06,0;0.12,0;0,0.3;0.06,-0.3` で評価します (転倒数、vx/wz、ロール/ピッチ、接地率)。
 - 学習曲線 (平均報酬) は tensorboard (`logs/rsl_rl/.../events.*`) で比較します。
 - `frozen` (既存方策への後付け) は別の比較です (同じ環境での学習前後)。
@@ -132,6 +132,24 @@ sh run_queue.sh 1024 300 joint:1 baseline:1          # 1 台で、短い確認
 ```
 
 `sim2sim.py` も 2 段/baseline のチェックポイントを自動判定します (`--sim genesis` のみ)。
+
+### 4.2 比較の結果 (joint と baseline、各 7 seed、9200 iteration)
+
+各モード 7 seed (seed 1〜7)、8192 env、9200 iteration 相当で学習し、`sim2sim.py --sim genesis` で評価した結果です (詳細は [TWO_STAGE_RESULTS.md](TWO_STAGE_RESULTS.md) の 1.3 節)。seed 1〜6 は `--resume` で延長して 9200 iteration にし、seed 7 は 9200 iteration を通しで学習しました。
+
+| 指標 | joint (A+B) | baseline (A のみ) |
+|---|---|---|
+| 離陸した seed (報酬の移動平均が 20 を超えた) | 7 / 7 | 7 / 7 |
+| 離陸した iteration の中央値 | **785** | 2729 |
+| 最終報酬 (7 seed、末尾 100 iteration) | 81.4 ± 10.6 | 78.0 ± 5.3 |
+| 評価の全転倒条件 (56 条件) | 0 | 0 |
+| 並進誤差 \|vx − 指令\| (m/s) | 0.0039 | 0.0037 |
+| 旋回誤差 \|wz − 指令\| (rad/s) | 0.084 | 0.108 |
+
+- **十分に長く学習すれば、段 B なしの `baseline` も `joint` と同様に歩けるようになります。** 4600 iteration の時点では、`baseline` の seed 6 が離陸せず転倒しましたが、9200 iteration までには 7 seed すべてが離陸し、評価も転倒ゼロでした。
+- **最終報酬の差は、標準偏差の範囲内です。** 並進の追従は同等で、旋回は `joint` がやや良好です。
+- **違いが出たのは離陸の速さです。** 離陸までの iteration の中央値は、`joint` が 785、`baseline` が 2729 です。ただし `joint` にも離陸が遅い seed (seed 2: 2043、seed 7: 2646) があり、分布は重なっています。
+- seed 1〜6 は、4600 iteration 付近で `--resume` したときに報酬が一時的に下がります (通しで学習した seed 7 にはありません)。
 
 ## 5. 環境の変更 (`gs_env.py`)
 
@@ -147,7 +165,7 @@ uv run render.py --checkpoint logs/.../model_N.pt --sim genesis      # 2 段の�
 
 - `render.py` はチェックポイントのキー (`stage_b.w1`) で 2 段かどうかを判定し、4 フレーム履歴・遅延 0 の環境を作ります。
 - 動作確認: `joint` と `frozen` で短時間 (3〜4 iter、64 env) の学習が回ること、`frozen` で A が不変であること、保存した 2 段チェックポイントを `render.py` で動画にできることを確認しました。
-  性能 (歩けるか) の評価は、長時間の学習をまだ回していないので未確認です。
+  性能 (歩けるか) の評価は 4.2 節にまとめました。
 
 ## 7. 既知の制限
 
