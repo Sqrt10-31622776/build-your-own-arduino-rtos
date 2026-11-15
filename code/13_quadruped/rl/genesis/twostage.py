@@ -127,12 +127,17 @@ class TwoStageActor(MLPModel):
             self.stage_a_norm.eval()
         return self
 
-    def load_stage_a(self, path: str) -> None:
-        """Stage A and its normalizer from a single-stage checkpoint (87 -> 96 -> 64 -> 8)."""
+    def load_stage_a(self, path: str, with_std: bool = False) -> None:
+        """Stage A and its normalizer from a checkpoint: a single-stage one (87 -> 96 -> 64 -> 8, normalizer
+        ``obs_normalizer.*``) or a ``baseline`` one (normalizer ``stage_a_norm.*``). ``with_std`` also takes
+        the learned action std (``baseline`` checkpoints)."""
         sd = torch.load(path, map_location="cpu", weights_only=False)["actor_state_dict"]
         self.mlp.load_state_dict({k[4:]: v for k, v in sd.items() if k.startswith("mlp.")})
-        self.stage_a_norm.load_state_dict(
-            {k[len("obs_normalizer."):]: v for k, v in sd.items() if k.startswith("obs_normalizer.")})
+        prefix = "stage_a_norm." if "stage_a_norm._mean" in sd else "obs_normalizer."
+        self.stage_a_norm.load_state_dict({k[len(prefix):]: v for k, v in sd.items() if k.startswith(prefix)})
+        if with_std:
+            self.distribution.load_state_dict(
+                {k[len("distribution."):]: v for k, v in sd.items() if k.startswith("distribution.")})
 
     def as_jit(self):
         raise NotImplementedError("the two-stage actor is not exported (sim only)")

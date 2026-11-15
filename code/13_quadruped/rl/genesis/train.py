@@ -54,6 +54,9 @@ def main() -> int:
                    help="single: the 87-dim MLP as before; frozen/joint: two stages (twostage.py); baseline: stage A alone, from scratch, no B")
     p.add_argument("--stage-a", default=None, help="frozen: single-stage checkpoint to use as stage A")
     p.add_argument("--init-std", type=float, default=None, help="default 0.2 (frozen), 1.0 (joint/single)")
+    p.add_argument("--inherit-a", action="store_true",
+                   help="frozen: also take the action std, the critic and the curriculum position from the --stage-a "
+                        "checkpoint (a baseline one), so that the run starts as 'that policy + a zero B'")
     p.add_argument("--hidden-b", type=int, default=16, help="hidden width of each per-joint stage-B MLP")
     p.add_argument("--delay-min", type=int, default=None,
                    help="servo delay in physics substeps; default 0 (two-stage) or the task's value (single)")
@@ -90,6 +93,13 @@ def main() -> int:
     if args.mode == "frozen":
         runner.alg.actor.load_stage_a(args.stage_a)
         print("[train] stage A frozen from {}".format(args.stage_a))
+        if args.inherit_a:
+            ck = torch.load(args.stage_a, map_location="cpu", weights_only=False)
+            runner.alg.actor.load_stage_a(args.stage_a, with_std=True)
+            runner.alg.critic.load_state_dict(ck["critic_state_dict"])
+            env.restore_curriculum(ck["iter"] * agent_cfg["num_steps_per_env"])
+            print("[train] inherited std {}, the critic, curriculum at iteration {}".format(
+                runner.alg.actor.distribution.std_param.data.mean().item(), ck["iter"]))
     if args.resume:
         runner.load(args.resume)
         print("[train] resumed from {}".format(args.resume))
