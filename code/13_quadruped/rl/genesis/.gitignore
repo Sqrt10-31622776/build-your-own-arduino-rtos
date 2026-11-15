@@ -1,5 +1,6 @@
 logs/
-results/
+results/*
+!results/*.png
 queue.log
 MUJOCO_LOG.TXT
 extend.log
