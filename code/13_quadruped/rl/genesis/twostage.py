@@ -158,6 +158,9 @@ def from_checkpoint(path: str):
     """(runner cfg, GenesisQuadEnv kwargs) for a two-stage checkpoint, or None for a single-stage one."""
     sd = torch.load(path, map_location="cpu", weights_only=False)["actor_state_dict"]
     if "stage_a_norm._mean" not in sd:
+        if sd.get("obs_normalizer._mean") is not None and sd["obs_normalizer._mean"].shape[-1] == (
+                sum(TERM_DIMS[t] for t in T.ACTOR_TERMS) * (HISTORY_B + 1)):    # oracle_all: the plain MLP on 4 frames
+            return T.ppo_runner_cfg(), {"actor_history": HISTORY_B + 1, "delay_min_lag": 0, "delay_max_lag": 0}
         return None
     has_b = "stage_b.w1" in sd
     cfg = apply(T.ppo_runner_cfg(), "joint" if has_b else "baseline",

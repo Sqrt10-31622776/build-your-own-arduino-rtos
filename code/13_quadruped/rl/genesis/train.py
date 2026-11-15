@@ -50,8 +50,8 @@ def main() -> int:
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--run-name", default="genesis")
     p.add_argument("--resume", default=None, help="checkpoint to continue from (any of the three trainers)")
-    p.add_argument("--mode", choices=("single", "frozen", "joint", "baseline"), default="single",
-                   help="single: the 87-dim MLP as before; frozen/joint: two stages (twostage.py); baseline: stage A alone, from scratch, no B")
+    p.add_argument("--mode", choices=("single", "frozen", "joint", "baseline", "oracle_all"), default="single",
+                   help="single: the 87-dim MLP as before; frozen/joint: two stages (twostage.py); baseline: stage A alone, from scratch, no B; oracle_all: the plain MLP on all 4 frames (s_{t-3..t}, a_{t-4..t-1}, every joint), no servo delay: an upper bound for B")
     p.add_argument("--stage-a", default=None, help="frozen: single-stage checkpoint to use as stage A")
     p.add_argument("--init-std", type=float, default=None, help="default 0.2 (frozen), 1.0 (joint/single)")
     p.add_argument("--inherit-a", action="store_true",
@@ -77,7 +77,11 @@ def main() -> int:
                            stamp + ("_" + args.run_name if args.run_name else ""))
 
     env_kw = {}
-    if args.mode != "single":
+    if args.mode == "oracle_all":      # the plain MLP, but on the whole 4-frame history (116 inputs)
+        env_kw = {"actor_history": twostage.HISTORY_B + 1, "delay_min_lag": 0, "delay_max_lag": 0}
+        if args.init_std is not None:
+            agent_cfg["actor"]["distribution_cfg"]["init_std"] = args.init_std
+    elif args.mode != "single":
         agent_cfg = twostage.apply(agent_cfg, args.mode, args.init_std, args.hidden_b)
         env_kw = {"actor_history": twostage.HISTORY_B + 1, "delay_min_lag": 0, "delay_max_lag": 0}
     elif args.init_std is not None:
